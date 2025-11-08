@@ -16,8 +16,9 @@
 
 	# 1.2. Express the average movie duration in hours and minutes. Don't use decimals. Hint: Look for floor and round functions.
     
-    SELECT ROUND(AVG(length),0) as avg_duration 
+    SELECT FLOOR(AVG(length)/60) as avg_hour,  ROUND(AVG(length)%60) as avg_min
     FROM film;
+
     
 # 2. You need to gain insights related to rental dates:
 	# 2.1 Calculate the number of days that the company has been operating.
@@ -73,7 +74,7 @@ ORDER BY title ASC;
 # The results should be ordered by last name in ascending order to make it easier to use the data.
 
 SELECT
-CONCAT(first_name, last_name, SUBSTRING(email, 1, 3)) as email_campaign
+CONCAT(first_name, ' ', last_name) as full_name, SUBSTRING(email, 1, 3) as email_campaign
 FROM customer
 ORDER BY last_name ASC; 
     
@@ -119,5 +120,8 @@ ORDER BY last_name ASC;
         
 # 3. Bonus: determine which last names are not repeated in the table actor
 
-SELECT DISTINCT(last_name) FROM actor;
+SELECT last_name, COUNT(DISTINCT(last_name)) as repeated_last_name 
+FROM actor
+GROUP BY last_name
+HAVING repeated_last_name = 1;
     
